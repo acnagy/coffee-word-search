@@ -1,0 +1,13 @@
+# dev env
+*.idea/
+*.gradle/
+gradle/
+*out/
+*.build/
+gradlew.bat
+gradlew
+
+# project-specific
+**.txt
+**.docx
+**.pdf
