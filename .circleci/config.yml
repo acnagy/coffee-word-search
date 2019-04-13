@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/cs422
+    docker:
+      - image: circleci/openjdk:11-stretch-node-browsers-legacy
+    steps:
+      - checkout
+      - run: 
+          name: build
+          command: gradle build
+      - run:
+          name: test
+          command: gradle clean test
