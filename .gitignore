@@ -8,6 +8,7 @@ gradlew.bat
 gradlew
 
 # project-specific
+!test-assets/**
 **.txt
 **.docx
 **.pdf

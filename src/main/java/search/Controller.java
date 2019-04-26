@@ -18,7 +18,7 @@ public class Controller {
     public String index() {
         return "Hi! 42 :)\n";
     }
-
+    
     @RequestMapping(path = "/file", method = RequestMethod.POST)
     public String file(@ModelAttribute("file") MultipartFile file, @RequestParam String term) {
         FindWord finder = new FindWord();
