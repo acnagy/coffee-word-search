@@ -11,8 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -20,7 +26,6 @@ public class TestIntegratonController {
 
     @LocalServerPort
     private int port;
-
     private URL base;
 
     @Autowired
@@ -32,9 +37,44 @@ public class TestIntegratonController {
     }
 
     @Test
-    public void getHello() throws Exception {
+    public void integrationTest_index() throws Exception {
         ResponseEntity<String> response = template.getForEntity(base.toString(),
                 String.class);
         assertThat(response.getBody(), equalTo("Hi! 42 :)\n"));
+    }
+
+    @Test
+    public void integrationTest_string() throws Exception {
+        MultiValueMap<String, String> params= new LinkedMultiValueMap<String, String>();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        headers.set("Accept", "text/plain");
+
+        params.add("string", "In the 24th century, Spock became an adviser to the leadership of the Federation");
+        params.add("term", "spock");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+
+        ResponseEntity<String> response = template.postForEntity("/string", request, String.class);
+        assertThat(response.getBody(), equalTo("spock: 1\n"));
+    }
+
+    @Test
+    public void integrationTest_file() throws Exception {
+        MultiValueMap<String, Object> params= new LinkedMultiValueMap<String, Object>();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        headers.set("Content-Type", "multipart/form-data");
+        headers.set("Accept", "text/plain");
+
+        params.add("file", new FileSystemResource("test-assets/test-file2.txt"));
+        params.add("term", "spock");
+
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(params, headers);
+
+        ResponseEntity<String> response = template.postForEntity("/file", request, String.class);
+        assertThat(response.getBody(), equalTo("spock: 2\n"));
     }
 }
