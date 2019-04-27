@@ -6,19 +6,23 @@ jobs:
       - image: circleci/openjdk:11-stretch-node-browsers-legacy
     steps:
       - checkout
-      - run: 
-          name: build
-          command: gradle build
       - run:
           name: test
           command: gradle clean test
+      - run: 
+          name: build
+          command: gradle clean build
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: build & push docker
+          name: build container
           command : |
+            cd ~/coffee-word-search
             export TAG=0.2.${CIRCLE_BUILD_NUM}
             export IMAGE_NAME=coffee-word-search
             docker build -t acnagy/$IMAGE_NAME:$TAG .
+      - run:
+          name: push container
+          command: |
             echo $DOCKER_HUB_PWD | docker login -u $DOCKER_HUB_USER --password-stdin
             docker push acnagy/$IMAGE_NAME:$TAG
