@@ -12,11 +12,13 @@ jobs:
       - run:
           name: test
           command: gradle clean test
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: build & push docker
           command : |
-            echo 'export TAG=0.2.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
-            echo 'export IMAGE_NAME=coffee-word-search' >> $BASH_ENV
+            export TAG=0.2.${CIRCLE_BUILD_NUM}
+            export IMAGE_NAME=coffee-word-search
             docker build -t acnagy/$IMAGE_NAME:$TAG .
             echo $DOCKER_HUB_PWD | docker login -u $DOCKER_HUB_USER --password-stdin
             docker push acnagy/$IMAGE_NAME:$TAG
