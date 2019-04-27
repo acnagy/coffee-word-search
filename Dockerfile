@@ -1,6 +1,5 @@
-FROM openjdk:8-alpine
+FROM openjdk:8-jdk-alpine
 WORKDIR /app
-COPY build/libs libs/
-COPY build/classes classes/
-ENTRYPOINT ["java", "-Dspring.profiles.active=production", "-Xmx2048m", "-cp", "/app/resources:/app/classes:/app/libs/*", "search.Search"]
+COPY /build/libs/coffee-word-search-0.2.0.jar /app.jar
+ENTRYPOINT ["/usr/bin/java", "-jar", "-Dspring.profiles.active=production", "/app.jar"]
 EXPOSE 8080

@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/coffee-word-search
     docker:
-      - image: circleci/openjdk:11-stretch-node-browsers-legacy
+      - image: circleci/openjdk:8-jdk-stretch
     steps:
       - checkout
       - run:

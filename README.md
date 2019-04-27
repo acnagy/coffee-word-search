@@ -3,7 +3,7 @@
 
 a RESTful api to find a word in a file or a string.
 
-a.k.a a demo app on [Spring Boot](https://spring.io) and [kubernetes (MiniKube)](https://kubernetes.io). Uses Spring Boot, Java 8, CircleCI Gradle 5.0, Docker, Minikube and bring-your-own-cloud
+a.k.a a demo app on [Spring Boot](https://spring.io) and [kubernetes (MiniKube)](https://kubernetes.io). Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, Minikube and bring-your-own-cloud
 
 Docker images are built on CircleCI, pushed to DockerHub, and deployed
 
@@ -16,8 +16,10 @@ Install all the docker/kubernetes dependencies
  
  
 ## Useful Resources
-These tutorials were pretty awesome and helpful. 
+These docs and tutorials were pretty awesome and helpful. 
   - [spring.io - Getting Started - Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
   - [spring.io - Getting Started - Uploading Files](https://spring.io/guides/gs/uploading-files/)
   - [github.com/IBM/spring-boot-microservices-on-kubernete](https://github.com/IBM/spring-boot-microservices-on-kubernetes)
+  - [CI/CD Pipelines with Docker on CircleCI](https://circleci.com/blog/build-cicd-piplines-using-docker/)
   - [Gorilla Logic - Build and Deploy a Spring Boot App on Kubernetes (Minikube)](https://gorillalogic.com/blog/build-and-deploy-a-spring-boot-app-on-kubernetes-minikube/)
+  - [Kubernetes.io Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-word-search-deployment
+  labels:
+    app: coffee-word-search
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: coffee-word-search
+  template:
+    metadata:
+      labels:
+        app: coffee-word-search
+    spec:
+      containers:
+      - name: coffee-word-search
+        image: acnagy/coffee-word-search:latest
+        ports:
+        - containerPort: 8080
+        

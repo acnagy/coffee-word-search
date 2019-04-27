@@ -22,7 +22,7 @@ import org.springframework.util.MultiValueMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestIntegratonController {
+public class TestIntegratonSearch {
 
     @LocalServerPort
     private int port;

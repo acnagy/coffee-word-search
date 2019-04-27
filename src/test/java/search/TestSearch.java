@@ -20,7 +20,7 @@ import java.io.FileInputStream;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TestController {
+public class TestSearch {
 
     @Autowired
     private MockMvc mvc;
