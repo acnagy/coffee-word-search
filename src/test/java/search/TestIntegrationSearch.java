@@ -3,7 +3,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.net.URL;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,7 @@ import org.springframework.util.MultiValueMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestIntegratonSearch {
+public class TestIntegrationSearch {
 
     @LocalServerPort
     private int port;
@@ -40,7 +39,9 @@ public class TestIntegratonSearch {
     public void integrationTest_index() throws Exception {
         ResponseEntity<String> response = template.getForEntity(base.toString(),
                 String.class);
-        assertThat(response.getBody(), equalTo("Hi! 42 :)\n"));
+
+        String expected = "{\"term\":null,\"count\":1,\"input\":\"Hi! Welcome to the app :)\"}";
+        assertThat(response.getBody(), equalTo(expected));
     }
 
     @Test
@@ -49,7 +50,7 @@ public class TestIntegratonSearch {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        headers.set("Accept", "text/plain");
+        headers.set("Accept", "application/json");
 
         params.add("string", "In the 24th century, Spock became an adviser to the leadership of the Federation");
         params.add("term", "spock");
@@ -57,7 +58,9 @@ public class TestIntegratonSearch {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
         ResponseEntity<String> response = template.postForEntity("/string", request, String.class);
-        assertThat(response.getBody(), equalTo("spock: 1\n"));
+        String expected = "{\"term\":\"spock\",\"count\":1,\"input\":\"In the 24th century, "
+            + "Spock became an adviser to the leadership of the Federation\"}";
+        assertThat(response.getBody(), equalTo(expected));
     }
 
     @Test
@@ -67,7 +70,7 @@ public class TestIntegratonSearch {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         headers.set("Content-Type", "multipart/form-data");
-        headers.set("Accept", "text/plain");
+        headers.set("Accept", "application/json");
 
         params.add("file", new FileSystemResource("test-assets/test-file2.txt"));
         params.add("term", "spock");
@@ -75,6 +78,7 @@ public class TestIntegratonSearch {
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(params, headers);
 
         ResponseEntity<String> response = template.postForEntity("/file", request, String.class);
-        assertThat(response.getBody(), equalTo("spock: 2\n"));
+        String expected = "{\"term\":\"spock\",\"count\":2,\"input\":\"test-file2.txt\"}";
+        assertThat(response.getBody(), equalTo(expected));
     }
 }

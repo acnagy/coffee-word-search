@@ -57,7 +57,61 @@ CircleCI will automatically pick up the build, and following the `.circle/config
  - build a Docker image with that jar, tagging it with the version and build number
  - push the Docker image to [Docker Hub (acnagy/coffee-word-search)](https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search)
 
- 
+
+## Calls 
+
+The API supports three endpoints. 
+
+GET: `URL/`
+params: none
+
+```
+$ curl -s URL/
+{
+  "term": null,
+  "count": 1,
+  "input": "Hi! Welcome to the app :)"
+}
+
+```
+
+POST: `URL/string`
+params:
+  - term: string
+  - string: string (to search)
+
+```
+$ curl -s -X POST \
+-d term="something" \
+-d string="something something else" \
+URL/string | jq
+
+{
+  "term": "something",
+  "count": 2,
+  "input": "something something else"
+}
+
+```
+
+POST: `URL/file`
+params: 
+ - term: string
+ - file: file path
+
+```
+$ curl -s -X POST \
+-F term="something" \
+-F file="fileName" \
+URL/file | jq
+
+ {
+   "term": "somethin",
+   "count": 2,
+   "input": "test-file3.txt"
+ }
+```
+
 ## Useful Resources
 These docs and tutorials were pretty awesome and helpful. 
   - [spring.io - Getting Started - Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)

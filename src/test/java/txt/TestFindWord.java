@@ -26,12 +26,10 @@ public class TestFindWord {
         FindWord wordFinder = new FindWord();
         String orig = "spider-man spiderman does whatever a spider can!";
         String term = "spiderman";
-        String expected = term + ": 2\n";
+        Integer expected = 2;
+        Integer out = wordFinder.countOccurances(orig, term);
 
-        String out = wordFinder.countOccurances(orig, term);
-        System.out.println(out);
-        System.out.println(expected);
-        Assert.assertTrue(out.equals(expected));
+        Assert.assertEquals(expected, out);
 
     }
 
@@ -40,11 +38,10 @@ public class TestFindWord {
         FindWord wordFinder = new FindWord();
         InputStream fileSt = new FileInputStream("test-assets/test-file1.txt");
         String term = "42";
-        String expected = term + ": 5\n";
+        Integer expected = 5;
 
-        String out = wordFinder.countOccurances(fileSt, term);
-        System.out.println(out);
-        Assert.assertTrue(out.equals(expected));
+        Integer out = wordFinder.countOccurances(fileSt, term);
+        Assert.assertEquals(expected, out);
     }
 
 }

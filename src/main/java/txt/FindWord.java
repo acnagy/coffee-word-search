@@ -1,13 +1,12 @@
 package txt;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class FindWord {
 
-    public String countOccurances(InputStream inStrFile, String term) {
+    public Integer countOccurances(InputStream inStrFile, String term) {
 
         try {
             BufferedReader fileReader = new BufferedReader(new InputStreamReader(inStrFile));
@@ -18,19 +17,15 @@ public class FindWord {
                 count += hits(line, term);
             }
 
-            return term + ": " + String.valueOf(count) + "\n";
+            return count;
 
-        } catch (IOException e){
-            return "There was a file read/write issue counting the occurances of " + term + ".\n";
-
-        } catch (Exception e) {
-            return "There was an exception counting the occurances of " + term + ".\n";
+        } catch (Exception e){
+            return Integer.MAX_VALUE;
         }
     }
 
-    public String countOccurances(String str, String term){
-        int count = hits(str, term);
-        return term + ": " + String.valueOf(count) + "\n";
+    public Integer countOccurances(String str, String term){
+        return hits(str, term);
     }
 
     public String normalizeLine(String line) {

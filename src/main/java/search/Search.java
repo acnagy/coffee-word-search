@@ -1,56 +1,53 @@
 package search;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import txt.FindWord;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 @RestController
 public class Search {
 
-    @RequestMapping("/")
-    public String index() {
-        return "Hi! 42 :)\n";
+    @GetMapping("/")
+    @ResponseBody
+    public Results index() {
+        return new Results(null, 1, "Hi! Welcome to the app :)");
     }
-    
-    @RequestMapping(path = "/file", method = RequestMethod.POST)
-    public String file(@ModelAttribute("file") MultipartFile file, @RequestParam String term) {
-        FindWord wordFinder = new FindWord();
+
+    @PostMapping("/file")
+    @RequestMapping(path = "/file", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> file(@ModelAttribute("file") MultipartFile file, @RequestParam String term) {
         try {
             InputStream fileInStr = file.getInputStream();
-            return wordFinder.countOccurances(fileInStr, term);
+            FindWord wordFinder = new FindWord();
+            Integer count = wordFinder.countOccurances(fileInStr, term);
 
-        } catch (IOException e){
-            return "There was a read/write issue creating the file input stream\n";
+            if (count == Integer.MAX_VALUE){
+                return new ResponseEntity<String>(
+                        "there was a read/write issue with the file",
+                        HttpStatus.BAD_REQUEST);
+            }
 
-        } catch (Exception e) {
-            return "There was a strange exception\n";
+            return new ResponseEntity<Results>(
+                    new Results(term, count, file.getOriginalFilename()),
+                    HttpStatus.OK);
+
+        } catch (Exception e){
+                return new ResponseEntity<String>(
+                        "there was an issue with the file input stream",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(path = "/string", method = RequestMethod.POST)
-    public String string(@RequestParam String string, @RequestParam String term) {
+    @PostMapping("/string")
+    @ResponseBody
+    public ResponseEntity<?> string(@RequestParam String string, @RequestParam String term) {
         FindWord wordFinder = new FindWord();
-        return wordFinder.countOccurances(string, term);
-    }
-
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx){
-        return args -> {
-            System.out.println("some boot beans: ");
-
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-        };
+        Integer count = wordFinder.countOccurances(string, term);
+        return new ResponseEntity<Results>(new Results(term, count, string), HttpStatus.OK);
     }
 
 }
