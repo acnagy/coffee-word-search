@@ -1,5 +1,5 @@
 # Coffee Word Search  
-[![CircleCI](https://circleci.com/gh/acnagy/coffee-word-search.svg?style=svg)](https://circleci.com/gh/acnagy/coffee-word-search)
+[![CircleCI](https://circleci.com/gh/acnagy/coffee-word-search.svg?style=svg&circle-token=7cc52e080d42dfd58a72c980b4cff2d1dea69bc8)](https://circleci.com/gh/acnagy/coffee-word-search)
 
 a RESTful api to find a word in a file or a string.
 
@@ -13,7 +13,49 @@ Install all the docker/kubernetes dependencies
  - Install [Docker](https://docs.docker.com/install/)
  - Install a Hypervisor ([VirtualBox](https://www.virtualbox.org/wiki/Downloads))
  - Install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+
+
+## Writing the API
+This application is super small. The class structure is as follows:
+
+```
+├── main
+│   ├── java
+│   │   ├── search
+│   │   │   ├── ...
+│   │   └── txt
+│   │       └── ...
+│   └── resources
+└── test
+    ├── java
+    │   ├── search
+    │   │   ├── ...
+    │   └── txt
+    │       └── ...
+    └── resources
+```
+
+The `search` package contains the `Search` api controller class(es) and entrypoint. The `txt` package is a package for business logic, e.g. building results returned by the controller. Test for both are mirrored in the `test` package tree. 
+
+### Make a Change
+Application changes should be written in Java 8. The intention behind the business logic packages is to allow for more rapid change without impacting the api controller. The `txt` directory is a good place to make changes. 
+
+Before or during the change, add unit tests in the business logic package unit tests directory. New endpoints should get controller and integration tests as well. 
+
+### Build and Deploy
+After making a change, run tests and build locally: 
+
+```
+$ gradle clean build
+```
  
+to make sure everything works as it should. Then, commit to a branch and push. 
+
+CircleCI will automatically pick up the build, and following the `.circle/config.yaml` it will: 
+ - run tests
+ - build a jar
+ - build a Docker image with that jar, tagging it with the version and build number
+ - push the Docker image to [Docker Hub (acnagy/coffee-word-search)](https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search)
  
 ## Useful Resources
 These docs and tutorials were pretty awesome and helpful. 

@@ -21,10 +21,10 @@ public class Search {
     
     @RequestMapping(path = "/file", method = RequestMethod.POST)
     public String file(@ModelAttribute("file") MultipartFile file, @RequestParam String term) {
-        FindWord finder = new FindWord();
+        FindWord wordFinder = new FindWord();
         try {
             InputStream fileInStr = file.getInputStream();
-            return finder.countOccurances(fileInStr, term);
+            return wordFinder.countOccurances(fileInStr, term);
 
         } catch (IOException e){
             return "There was a read/write issue creating the file input stream\n";
@@ -36,8 +36,8 @@ public class Search {
 
     @RequestMapping(path = "/string", method = RequestMethod.POST)
     public String string(@RequestParam String string, @RequestParam String term) {
-        FindWord finder = new FindWord();
-        return finder.countOccurances(string, term);
+        FindWord wordFinder = new FindWord();
+        return wordFinder.countOccurances(string, term);
     }
 
     @Bean
