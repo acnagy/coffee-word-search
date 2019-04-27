@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: coffee-word-search
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    nodePort: 30495
+  selector:
+    app: coffee-word-search

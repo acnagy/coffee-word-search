@@ -56,6 +56,7 @@ CircleCI will automatically pick up the build, and following the `.circle/config
  - build a jar
  - build a Docker image with that jar, tagging it with the version and build number
  - push the Docker image to [Docker Hub (acnagy/coffee-word-search)](https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search)
+
  
 ## Useful Resources
 These docs and tutorials were pretty awesome and helpful. 
@@ -65,3 +66,4 @@ These docs and tutorials were pretty awesome and helpful.
   - [CI/CD Pipelines with Docker on CircleCI](https://circleci.com/blog/build-cicd-piplines-using-docker/)
   - [Gorilla Logic - Build and Deploy a Spring Boot App on Kubernetes (Minikube)](https://gorillalogic.com/blog/build-and-deploy-a-spring-boot-app-on-kubernetes-minikube/)
   - [Kubernetes.io Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+  - [Kubernetes NodePort vs LoadBalancer vs Ingress?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
