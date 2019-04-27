@@ -12,3 +12,7 @@ gradlew
 **.txt
 **.docx
 **.pdf
+
+# secrets
+local.properties
+
