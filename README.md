@@ -1,4 +1,6 @@
-# Coffee Word Search 
+# Coffee Word Search  
+[![CircleCI](https://circleci.com/gh/acnagy/coffee-word-search.svg?style=svg)](https://circleci.com/gh/acnagy/coffee-word-search)
+
 a RESTful api to find a word in a file or a string.
 
 a.k.a a demo app on [Spring Boot](https://spring.io) and [kubernetes (MiniKube)](https://kubernetes.io). Uses Spring Boot, Java 8, CircleCI Gradle 5.0, Docker, Minikube and bring-your-own-cloud

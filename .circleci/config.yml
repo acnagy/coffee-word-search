@@ -19,4 +19,4 @@ jobs:
             echo 'export IMAGE_NAME=coffee-word-search' >> $BASH_ENV
             docker build -t acnagy/$IMAGE_NAME:$TAG .
             echo $DOCKER_HUB_PWD | docker login -u $DOCKER_HUB_USER --password-stdin
-            docker push acnagy/$IMAGE_NAEM:$TAG
+            docker push acnagy/$IMAGE_NAME:$TAG
