@@ -3,9 +3,11 @@
 
 a RESTful api to find a word in a file or a string.
 
-a.k.a a demo app on [Spring Boot](https://spring.io) and [kubernetes (MiniKube)](https://kubernetes.io). Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, Minikube and bring-your-own-cloud
+a.k.a a demo app on [Spring Boot](https://spring.io) and [kubernetes (MiniKube)](https://kubernetes.io). 
+Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, Minikube and bring-your-own-cloud
+Docker images are built on CircleCI, pushed to DockerHub, and deployed. 
 
-Docker images are built on CircleCI, pushed to DockerHub, and deployed
+Check out the [slides here](http://cs422-slides.geckoandginko.live).
 
 ## Getting Started 
  
@@ -21,15 +23,21 @@ This application is super small. The class structure is as follows:
 ```
 ├── main
 │   ├── java
+│   │   ├── exceptions
+│   │   │   └── ...
 │   │   ├── search
-│   │   │   ├── ...
+│   │   │   └── ...
 │   │   └── txt
 │   │       └── ...
 │   └── resources
+│       ├── static
+│       │   └── ...
+│       └── templates
+│           └── ...
 └── test
     ├── java
     │   ├── search
-    │   │   ├── ...
+    │   │   └── ...
     │   └── txt
     │       └── ...
     └── resources

@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CS422 | Spring Boot on Kubernetes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../static/style.css" th:href="@{/style.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>Spring Boot on Kubernetes</h1>
+    <p>a RESTful api to find a word in a file or a string.</p>
+
+    <p>a.k.a a demo app on <a href="https://spring.io">Spring Boot</a> and <a href="https://kubernetes.io">kubernetes (MiniKube)</a>. Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, Minikube and bring-your-own-cloud</p>
+
+    <p>Docker images are built on CircleCI, pushed to DockerHub, and deployed</p>
+
+    <h2 id="gettingstarted">Getting Started</h2>
+
+    <p>Install all the docker/kubernetes dependencies</p>
+
+    <ul>
+        <li>Install <a href="https://docs.docker.com/install/">Docker</a></li>
+
+        <li>Install a Hypervisor (<a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a>)</li>
+
+        <li>Install <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> and <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">minikube</a></li>
+    </ul>
+
+    <h2 id="writingtheapi">Writing the API</h2>
+
+    <p>This application is super small. The class structure is as follows:</p>
+
+    <pre><code>├── main
+        │   ├── java
+        │   │   ├── search
+        │   │   │   ├── ...
+        │   │   └── txt
+        │   │       └── ...
+        │   └── resources
+        └── test
+        ├── java
+        │   ├── search
+        │   │   ├── ...
+        │   └── txt
+        │       └── ...
+        └── resources
+    </code></pre>
+
+    <p>The <code>search</code> package contains the <code>Search</code> api controller class(es) and entrypoint. The <code>txt</code> package is a package for business logic, e.g. building results returned by the controller. Test for both are mirrored in the <code>test</code> package tree. </p>
+
+    <h3 id="makeachange">Make a Change</h3>
+
+    <p>Application changes should be written in Java 8. The intention behind the business logic packages is to allow for more rapid change without impacting the api controller. The <code>txt</code> directory is a good place to make changes. </p>
+
+    <p>Before or during the change, add unit tests in the business logic package unit tests directory. New endpoints should get controller and integration tests as well. </p>
+
+    <h3 id="localtesting">Local Testing</h3>
+
+    <p>(1) Test manually by running as a jar. the api will be available on <a href="http://localhost:8080/">localhost:8080</a>. Test plans consist of <code>curl</code>ing each of the endpoints, with appropriate data or parameters that will error (e.g. nonexistent files, missing param)</p>
+
+    <pre><code>$ gradle clean build
+        $ java -jar coffee-word-search-0.3.0.jar
+    </code></pre>
+
+    <p>(2) Make sure the docker build works:</p>
+
+    <pre><code>$ docker build -t owner/repo:tag .
+    </code></pre>
+
+    <p>if you run the docker container with:</p>
+
+    <pre><code>$ docker run -p 8080:8080 owner/repo:tag
+    </code></pre>
+
+    <p>then the api will again be available on <a href="http://localhost:8080/">localhost:8080</a>.</p>
+
+    <p>(3) Deploy the docker container a local kubernetes cluster with Minikube</p>
+
+    <pre><code>$ minikube start
+        $ kubectl create -f deployment.yaml # edit this file to match docker naming/tagging
+        $ kubectl create -f service.yaml    # edit this too
+    </code></pre>
+
+    <p>Then, get the ip of the cluster with <code>minikube ip</code>. the api will be availabe on <code>MINIKUBE_IP:30495</code></p>
+
+    <h3 id="buildanddeploy">Build and Deploy</h3>
+
+    <p>After making a change, run tests and build locally: </p>
+
+    <pre><code>$ gradle clean build
+    </code></pre>
+
+    <p>to make sure everything works as it should. Then, commit to a branch and push. </p>
+
+    <p>CircleCI will automatically pick up the build, and following the <code>.circle/config.yaml</code> it will: </p>
+
+    <ul>
+        <li>run tests</li>
+
+        <li>build a jar</li>
+
+        <li>build a Docker image with that jar, tagging it with the version and build number</li>
+
+        <li>push the Docker image to <a href="https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search">Docker Hub (acnagy/coffee-word-search)</a> </li>
+    </ul>
+
+    <h2 id="calls">Calls</h2>
+
+    <p>The API supports three endpoints. </p>
+
+    <p>GET: <code>URL/</code>
+    params: none</p>
+
+    <pre><code>$ curl -s URL/
+        {
+          "term": null,
+          "count": 1,
+          "input": "Hi! Welcome to the app :)"
+      }
+  </code></pre>
+
+  <p>POST: <code>URL/string</code>
+  params:</p>
+
+  <ul>
+    <li>term: string</li>
+
+    <li>string: string (to search)</li>
+</ul>
+
+<pre><code>$ curl -s -X POST \
+    -d term="something" \
+    -d string="something something else" \
+    URL/string | jq
+
+    {
+      "term": "something",
+      "count": 2,
+      "input": "something something else"
+  }
+</code></pre>
+
+<p>POST: <code>URL/file</code>
+params: </p>
+
+<ul>
+    <li>term: string</li>
+
+    <li>file: file path</li>
+</ul>
+
+<pre><code>$ curl -s -X POST \
+    -F term="something" \
+    -F file="fileName" \
+    URL/file | jq
+
+    {
+     "term": "somethin",
+     "count": 2,
+     "input": "test-file3.txt"
+ }
+</code></pre>
+</body>
+</html>

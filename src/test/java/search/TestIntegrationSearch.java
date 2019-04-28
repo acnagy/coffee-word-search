@@ -40,8 +40,8 @@ public class TestIntegrationSearch {
         ResponseEntity<String> response = template.getForEntity(base.toString(),
                 String.class);
 
-        String expected = "Hi! Welcome to the app :)";
-        assertThat(response.getBody(), equalTo(expected));
+        assertThat(response.getStatusCodeValue(), equalTo(200));
+
     }
 
     @Test
@@ -61,6 +61,8 @@ public class TestIntegrationSearch {
         String expected = "{\"term\":\"spock\",\"count\":1,\"input\":\"In the 24th century, "
             + "Spock became an adviser to the leadership of the Federation\"}";
         assertThat(response.getBody(), equalTo(expected));
+        assertThat(response.getStatusCodeValue(), equalTo(200));
+
     }
 
     @Test
@@ -80,5 +82,6 @@ public class TestIntegrationSearch {
         ResponseEntity<String> response = template.postForEntity("/file", request, String.class);
         String expected = "{\"term\":\"spock\",\"count\":2,\"input\":\"test-file2.txt\"}";
         assertThat(response.getBody(), equalTo(expected));
+        assertThat(response.getStatusCodeValue(), equalTo(200));
     }
 }

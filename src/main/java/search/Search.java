@@ -1,23 +1,19 @@
 package search;
 
-import exceptions.FileContentException;
-import exceptions.FileStreamException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import txt.FindWord;
-
 import java.io.InputStream;
+
+
+import txt.FindWord;
+import exceptions.FileContentException;
+import exceptions.FileStreamException;
+
 
 @RestController
 public class Search {
-
-    @GetMapping("/")
-    @ResponseBody
-    public ResponseEntity<?> index() {
-        return new ResponseEntity<String>("Hi! Welcome to the app :)", HttpStatus.OK);
-    }
 
     @PostMapping("/file")
     @RequestMapping(path = "/file", method = RequestMethod.POST, produces = "application/json")
