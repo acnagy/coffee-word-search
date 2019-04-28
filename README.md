@@ -102,7 +102,7 @@ CircleCI will automatically pick up the build, and following the `.circle/config
 
 The API supports three endpoints. 
 
-GET: `URL/`
+GET: `URL/api/`
 params: none
 
 ```
@@ -115,7 +115,7 @@ $ curl -s URL/
 
 ```
 
-POST: `URL/string`
+POST: `URL/api/string`
 params:
   - term: string
   - string: string (to search)
@@ -124,7 +124,7 @@ params:
 $ curl -s -X POST \
 -d term="something" \
 -d string="something something else" \
-URL/string | jq
+URL/api/string | jq
 
 {
   "term": "something",
@@ -134,7 +134,7 @@ URL/string | jq
 
 ```
 
-POST: `URL/file`
+POST: `URL/api/file`
 params: 
  - term: string
  - file: file path
@@ -143,7 +143,7 @@ params:
 $ curl -s -X POST \
 -F term="something" \
 -F file="fileName" \
-URL/file | jq
+URL/api/file | jq
 
  {
    "term": "somethin",

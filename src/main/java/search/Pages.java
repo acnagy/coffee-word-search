@@ -11,8 +11,11 @@ public class Pages {
         return "docs";
     }
 
-    @GetMapping("/")
-    public String index() {
-        return "index";
+    @GetMapping("/resources")
+    public String resources(){
+        return "resources";
     }
+
+    @GetMapping("/")
+    public String index() { return "index"; }
 }

@@ -84,81 +84,16 @@
     <p>Then, get the ip of the cluster with <code>minikube ip</code>. the api will be availabe on <code>MINIKUBE_IP:30495</code></p>
 
     <h3 id="buildanddeploy">Build and Deploy</h3>
-
     <p>After making a change, run tests and build locally: </p>
-
-    <pre><code>$ gradle clean build
-    </code></pre>
-
+    <pre><code>$ gradle clean build</code></pre>
     <p>to make sure everything works as it should. Then, commit to a branch and push. </p>
-
     <p>CircleCI will automatically pick up the build, and following the <code>.circle/config.yaml</code> it will: </p>
 
     <ul>
         <li>run tests</li>
-
         <li>build a jar</li>
-
         <li>build a Docker image with that jar, tagging it with the version and build number</li>
-
         <li>push the Docker image to <a href="https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search">Docker Hub (acnagy/coffee-word-search)</a> </li>
     </ul>
-
-    <h2 id="calls">Calls</h2>
-
-    <p>The API supports three endpoints. </p>
-
-    <p>GET: <code>URL/</code>
-    params: none</p>
-
-    <pre><code>$ curl -s URL/
-        {
-          "term": null,
-          "count": 1,
-          "input": "Hi! Welcome to the app :)"
-      }
-  </code></pre>
-
-  <p>POST: <code>URL/string</code>
-  params:</p>
-
-  <ul>
-    <li>term: string</li>
-
-    <li>string: string (to search)</li>
-</ul>
-
-<pre><code>$ curl -s -X POST \
-    -d term="something" \
-    -d string="something something else" \
-    URL/string | jq
-
-    {
-      "term": "something",
-      "count": 2,
-      "input": "something something else"
-  }
-</code></pre>
-
-<p>POST: <code>URL/file</code>
-params: </p>
-
-<ul>
-    <li>term: string</li>
-
-    <li>file: file path</li>
-</ul>
-
-<pre><code>$ curl -s -X POST \
-    -F term="something" \
-    -F file="fileName" \
-    URL/file | jq
-
-    {
-     "term": "somethin",
-     "count": 2,
-     "input": "test-file3.txt"
- }
-</code></pre>
 </body>
 </html>

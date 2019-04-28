@@ -21,7 +21,7 @@ import org.springframework.util.MultiValueMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestIntegrationSearch {
+public class TestIntegrationSearchAPI {
 
     @LocalServerPort
     private int port;
@@ -36,12 +36,11 @@ public class TestIntegrationSearch {
     }
 
     @Test
-    public void integrationTest_index() throws Exception {
-        ResponseEntity<String> response = template.getForEntity(base.toString(),
-                String.class);
+    public void integrationTest_api() throws Exception {
+        ResponseEntity<String> response = template.getForEntity("/api/", String.class);
 
-        assertThat(response.getStatusCodeValue(), equalTo(200));
-
+        String expected = "{\"term\":\"welcome\",\"count\":1,\"input\":\"hi! welcome to the api :)\"}";
+        assertThat(response.getBody(), equalTo(expected));
     }
 
     @Test
@@ -57,12 +56,10 @@ public class TestIntegrationSearch {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 
-        ResponseEntity<String> response = template.postForEntity("/string", request, String.class);
+        ResponseEntity<String> response = template.postForEntity("/api/string", request, String.class);
         String expected = "{\"term\":\"spock\",\"count\":1,\"input\":\"In the 24th century, "
-            + "Spock became an adviser to the leadership of the Federation\"}";
+                + "Spock became an adviser to the leadership of the Federation\"}";
         assertThat(response.getBody(), equalTo(expected));
-        assertThat(response.getStatusCodeValue(), equalTo(200));
-
     }
 
     @Test
@@ -79,9 +76,8 @@ public class TestIntegrationSearch {
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<MultiValueMap<String, Object>>(params, headers);
 
-        ResponseEntity<String> response = template.postForEntity("/file", request, String.class);
+        ResponseEntity<String> response = template.postForEntity("/api/file", request, String.class);
         String expected = "{\"term\":\"spock\",\"count\":2,\"input\":\"test-file2.txt\"}";
         assertThat(response.getBody(), equalTo(expected));
-        assertThat(response.getStatusCodeValue(), equalTo(200));
     }
 }

@@ -13,10 +13,18 @@ import exceptions.FileStreamException;
 
 
 @RestController
-public class Search {
+public class SearchAPI {
 
-    @PostMapping("/file")
-    @RequestMapping(path = "/file", method = RequestMethod.POST, produces = "application/json")
+    @GetMapping("/api")
+    @RequestMapping(path = "/api", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Results> api(){
+        return new ResponseEntity<Results>(
+                new Results("welcome", 1, "hi! welcome to the api :)"),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/api/file")
+    @RequestMapping(path = "/api/file", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> file(@ModelAttribute("file") MultipartFile file, @RequestParam String term) {
         try {
             InputStream fileInStr = file.getInputStream();
@@ -34,7 +42,7 @@ public class Search {
         }
     }
 
-    @PostMapping("/string")
+    @PostMapping("/api/string")
     @ResponseBody
     public ResponseEntity<?> string(@RequestParam String string, @RequestParam String term) {
         FindWord wordFinder = new FindWord();
