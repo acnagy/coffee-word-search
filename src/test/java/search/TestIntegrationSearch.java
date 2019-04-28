@@ -40,7 +40,7 @@ public class TestIntegrationSearch {
         ResponseEntity<String> response = template.getForEntity(base.toString(),
                 String.class);
 
-        String expected = "{\"term\":null,\"count\":1,\"input\":\"Hi! Welcome to the app :)\"}";
+        String expected = "Hi! Welcome to the app :)";
         assertThat(response.getBody(), equalTo(expected));
     }
 

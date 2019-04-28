@@ -42,6 +42,38 @@ Application changes should be written in Java 8. The intention behind the busine
 
 Before or during the change, add unit tests in the business logic package unit tests directory. New endpoints should get controller and integration tests as well. 
 
+### Local Testing
+(1) Test manually by running as a jar. the api will be available on [localhost:8080](http://localhost:8080/). Test plans consist of `curl`ing each of the endpoints, with appropriate data or parameters that will error (e.g. nonexistent files, missing param)
+
+```
+$ gradle clean build
+$ java -jar coffee-word-search-0.3.0.jar
+```
+
+(2) Make sure the docker build works:
+
+```
+$ docker build -t owner/repo:tag .
+```
+
+if you run the docker container with:
+
+```
+$ docker run -p 8080:8080 owner/repo:tag
+```
+then the api will again be available on [localhost:8080](http://localhost:8080/).
+
+(3) Deploy the docker container a local kubernetes cluster with Minikube
+
+```
+$ minikube start
+$ kubectl create -f deployment.yaml # edit this file to match docker naming/tagging
+$ kubectl create -f service.yaml    # edit this too
+```
+
+Then, get the ip of the cluster with `minikube ip`. the api will be availabe on `MINIKUBE_IP:30495`
+
+
 ### Build and Deploy
 After making a change, run tests and build locally: 
 
@@ -55,7 +87,7 @@ CircleCI will automatically pick up the build, and following the `.circle/config
  - run tests
  - build a jar
  - build a Docker image with that jar, tagging it with the version and build number
- - push the Docker image to [Docker Hub (acnagy/coffee-word-search)](https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search)
+ - push the Docker image to [Docker Hub (acnagy/coffee-word-search)](https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search) 
 
 
 ## Calls 

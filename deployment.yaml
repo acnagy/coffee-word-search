@@ -16,6 +16,7 @@ spec:
     spec:
       containers:
       - name: coffee-word-search
-        image: acnagy/coffee-word-search:latest
+        image: acnagy/coffee-word-search:0.3.0-18
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

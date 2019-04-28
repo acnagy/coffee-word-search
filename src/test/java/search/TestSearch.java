@@ -1,5 +1,6 @@
 package search;
 
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -28,11 +29,9 @@ public class TestSearch {
     @Test
     public void test_index() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/")
-                .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
-                .andExpect(jsonPath("$.count").value(1))
-                .andExpect(jsonPath("$.input").value("Hi! Welcome to the app :)"));
+                .andExpect(content().string(equalTo("Hi! Welcome to the app :)")));
     }
 
     @Test
