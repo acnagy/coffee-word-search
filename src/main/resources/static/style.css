@@ -25,6 +25,19 @@ h3 {
     font-size: 20px
 }
 
+nav > ul {
+    border-width: 0px 0px 4px;
+    border-style: solid;
+    padding: 15px;
+    padding-bottom: 20px;
+    font-size: 18px;
+}
+
+nav > ul > li {
+    display: inline-block;
+    padding-right: 20px;
+}
+
 p, code, li {
     font-family: 'Nunito', sans-serif;
     color: #EEE;
