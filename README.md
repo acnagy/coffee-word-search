@@ -26,7 +26,11 @@ This application is super small. The class structure is as follows:
 │   │   ├── exceptions
 │   │   │   └── ...
 │   │   ├── search
-│   │   │   └── ...
+│   │   │   ├── Main.java
+│   │   │   ├── api
+│   │   │   │   └── ...
+│   │   │   └── site
+│   │   │       └── ...
 │   │   └── txt
 │   │       └── ...
 │   └── resources
@@ -37,13 +41,16 @@ This application is super small. The class structure is as follows:
 └── test
     ├── java
     │   ├── search
-    │   │   └── ...
+    │   │   ├── api
+    │   │   │   └── ...
+    │   │   └── site
+    │   │       └── ...
     │   └── txt
     │       └── ...
     └── resources
 ```
 
-The `search` package contains the `Search` api controller class(es) and entrypoint. The `txt` package is a package for business logic, e.g. building results returned by the controller. Test for both are mirrored in the `test` package tree. 
+The `search` package contains the main method and two packages: `api` and `site`, for the REST API and static site, respectively. The `txt` package is a package for business logic, e.g. building results returned by the controller. Test for both are mirrored in the `test` package tree. 
 
 ### Make a Change
 Application changes should be written in Java 8. The intention behind the business logic packages is to allow for more rapid change without impacting the api controller. The `txt` directory is a good place to make changes. 

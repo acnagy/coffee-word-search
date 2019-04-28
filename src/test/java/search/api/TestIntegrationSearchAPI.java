@@ -1,4 +1,4 @@
-package search;
+package search.api;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 

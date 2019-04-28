@@ -1,4 +1,4 @@
-package search;
+package search.api;
 
 public class Results {
     private final String term;
