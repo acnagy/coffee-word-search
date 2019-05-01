@@ -10,14 +10,58 @@
         <ul>
             <li><a href="/">home</a></li>
             <li><a href="/docs">docs</a></li>
-            <li><a href="resources">resources</a></li>
+            <li><a href="/resources">resources</a></li>
             <li><a href="https://cs422-slides.geckoandginko.live">slides</a></li>
         <ul>
     </nav>
     <h1>Docs</h1>
-    <p>how to use the two endpoints on this api</p>
-        <h2 id="calls">Calls</h2>
-        <p>docs coming soon</p>
+    <p>here's how to call the three endpoints on this api</p>
+    
+    <p>GET: <code>URL/api/</code>
+    params: none</p>
+    <pre><code>$ curl -s URL/
+    {
+      "term": null,
+      "count": 1,
+      "input": "Hi! Welcome to the app :)"
+    }
+    </code></pre>
+
+    <p>POST: <code>URL/api/string</code>
+    params:</p>
+    <ul>
+        <li>term: string</li>
+        <li>string: string (to search)</li>
+    </ul>
+    <pre><code>$ curl -s -X POST \
+    -d term="something" \
+    -d string="something something else" \
+    URL/api/string | jq
+
+    {
+      "term": "something",
+      "count": 2,
+      "input": "something something else"
+    }
+    </code></pre>
+
+    <p>POST: <code>URL/api/file</code>
+    params: </p>
+    <ul>
+        <li>term: string</li>
+        <li>file: file path</li>
+    </ul>
+    <pre><code>$ curl -s -X POST \
+    -F term="something" \
+    -F file="@fileName" \
+    URL/api/file | jq
+
+     {
+       "term": "somethin",
+       "count": 2,
+       "input": "test-file3.txt"
+     }
+    </code></pre>
 
 </body>
 </html>

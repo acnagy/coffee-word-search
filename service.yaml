@@ -3,9 +3,10 @@ apiVersion: v1
 metadata:
   name: coffee-word-search
 spec:
-  type: NodePort
-  ports:
-  - port: 8080
-    nodePort: 30495
+  type: LoadBalancer
   selector:
     app: coffee-word-search
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
