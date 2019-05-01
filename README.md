@@ -6,7 +6,7 @@ a RESTful api to find a word in a file or a string. Fancy-sauce hello world, ami
 a.k.a a demo app on [Spring Boot](https://spring.io) and [kubernetes (MiniKube)](https://kubernetes.io). 
 Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, and Kubernetes. Docker images are built in CI, pulled/tagged for deployment, and deployed on kubernetes.
 
-Check out the [slides here](http://cs422-slides.geckoandginko.live).
+Check out the [slides here](http://slides.cs422.geckoandginko.live).
 
 ## Getting Started 
  
