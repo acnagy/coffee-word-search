@@ -18,7 +18,7 @@ jobs:
           name: build & push container
           command : |
             cd ~/coffee-word-search
-            export TAG=0.5.0-${CIRCLE_BUILD_NUM}
+            export TAG=1.0.0-${CIRCLE_BUILD_NUM}
             export IMAGE_NAME=coffee-word-search
             docker build -t acnagy/$IMAGE_NAME:$TAG .
             echo $DOCKER_HUB_PWD | docker login -u $DOCKER_HUB_USER --password-stdin
