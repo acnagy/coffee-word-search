@@ -19,8 +19,10 @@
     
     <p>GET: <code>URL/api/</code></p>
     <p>params: none</p>
-    <pre><code>
+    <pre class=".no-indent"><code>
     $ curl -s URL/api/
+    </code></pre>
+    <pre><code>
     {
       "term": null,
       "count": 1,
@@ -34,9 +36,11 @@
         <li>term: string</li>
         <li>string: string (to search)</li>
     </ul>
-    <pre><code>
+    <pre class=".no-indent"><code>
     $ curl -s -X POST -d term="something" -d string="something something else" \
     URL/api/string | jq
+    </code></pre>
+    <pre><code>
     {
       "term": "something",
       "count": 2,
@@ -50,10 +54,11 @@
         <li>term: string</li>
         <li>file: file path</li>
     </ul>
-    <pre><code>
+    <pre class=".no-indent"><code>
     $ curl -s -X POST -F term="something" -F file="@fileName" \
     URL/api/file | jq
-
+    </code></pre>
+    <pre><code>
      {
        "term": "somethin",
        "count": 2,

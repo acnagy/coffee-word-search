@@ -66,25 +66,29 @@
 
     <p>(1) Test manually by running as a jar. the api will be available on <a href="http://localhost:8080/">localhost:8080</a>. Test plans consist of <code>curl</code>ing each of the endpoints, with appropriate data or parameters that will error (e.g. nonexistent files, missing param)</p>
 
-    <pre><code>$ gradle clean build
+    <pre class=".no-indent"><code>
+        $ gradle clean build
         $ java -jar coffee-word-search-0.3.0.jar
     </code></pre>
 
     <p>(2) Make sure the docker build works:</p>
 
-    <pre><code>$ docker build -t owner/repo:tag .
+    <pre class=".no-indent"><code>
+        $ docker build -t owner/repo:tag .
     </code></pre>
 
     <p>if you run the docker container with:</p>
 
-    <pre><code>$ docker run -p 8080:8080 owner/repo:tag
+    <<pre class=".no-indent"><code>
+        $ docker run -p 8080:8080 owner/repo:tag
     </code></pre>
 
     <p>then the api will again be available on <a href="http://localhost:8080/">localhost:8080</a>.</p>
 
     <p>(3) Deploy the docker container a local kubernetes cluster with Minikube</p>
 
-    <pre><code>$ minikube start
+    <<pre class=".no-indent"><code>
+        $ minikube start
         $ kubectl create -f deployment.yaml # edit this file to match docker naming/tagging
         $ kubectl create -f service.yaml    # edit this too
     </code></pre>
