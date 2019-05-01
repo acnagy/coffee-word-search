@@ -17,9 +17,10 @@
     <h1>Docs</h1>
     <p>here's how to call the three endpoints on this api</p>
     
-    <p>GET: <code>URL/api/</code>
-    params: none</p>
-    <pre><code>$ curl -s URL/
+    <p>GET: <code>URL/api/</code></p>
+    <p>params: none</p>
+    <pre><code>
+    $ curl -s URL/api/
     {
       "term": null,
       "count": 1,
@@ -27,17 +28,15 @@
     }
     </code></pre>
 
-    <p>POST: <code>URL/api/string</code>
-    params:</p>
+    <p>POST: <code>URL/api/string</code></p>
+    <p>params:</p>
     <ul>
         <li>term: string</li>
         <li>string: string (to search)</li>
     </ul>
-    <pre><code>$ curl -s -X POST \
-    -d term="something" \
-    -d string="something something else" \
+    <pre><code>
+    $ curl -s -X POST -d term="something" -d string="something something else" \
     URL/api/string | jq
-
     {
       "term": "something",
       "count": 2,
@@ -51,9 +50,8 @@
         <li>term: string</li>
         <li>file: file path</li>
     </ul>
-    <pre><code>$ curl -s -X POST \
-    -F term="something" \
-    -F file="@fileName" \
+    <pre><code>
+    $ curl -s -X POST -F term="something" -F file="@fileName" \
     URL/api/file | jq
 
      {

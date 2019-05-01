@@ -125,7 +125,7 @@ GET: `URL/api/`
 params: none
 
 ```
-$ curl -s URL/
+$ curl -s URL/api/
 {
   "term": null,
   "count": 1,
