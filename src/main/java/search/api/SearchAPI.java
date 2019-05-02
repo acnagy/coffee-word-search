@@ -50,4 +50,12 @@ public class SearchAPI {
         return new ResponseEntity<Results>(new Results(term, count, string), HttpStatus.OK);
     }
 
+//    @PostMapping("/api/string/keepCaps")
+//    @ResponseBody
+//    public ResponseEntity<?> stringKeepCaps(@RequestParam String string, @RequestParam String term) {
+//        FindWord wordFinder = new FindWord();
+//        Integer count = wordFinder.countOccurances(string, term, true);
+//        return new ResponseEntity<Results>(new Results(term, count, string), HttpStatus.OK);
+//    }
+
 }

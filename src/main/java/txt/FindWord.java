@@ -32,6 +32,15 @@ public class FindWord {
         return hits(str, term);
     }
 
+    public Integer countOccurances(String str, String term, boolean keepCaps){
+        if (keepCaps == false) {
+            return countOccurances(str, term);
+        }
+        str = cleanLine(str);
+        term = cleanLine(term);
+        return hits(str, term);
+    }
+
     public String normalizeLine(String line) {
         line = cleanLine(line);
         line = line.toLowerCase();

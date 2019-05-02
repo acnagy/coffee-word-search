@@ -62,6 +62,25 @@ public class TestIntegrationSearchAPI {
         assertThat(response.getBody(), equalTo(expected));
     }
 
+//    @Test
+//    public void integrationTest_string_keepCaps() throws Exception {
+//        MultiValueMap<String, String> params= new LinkedMultiValueMap<String, String>();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//
+//        headers.set("Accept", "application/json");
+//
+//        params.add("string", "In the 24th century, Spock became an adviser to the leadership of the Federation");
+//        params.add("term", "spock");
+//
+//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+//
+//        ResponseEntity<String> response = template.postForEntity("/api/string/keepCaps", request, String.class);
+//        String expected = "{\"term\":\"spock\",\"count\":0,\"input\":\"In the 24th century, "
+//                + "Spock became an adviser to the leadership of the Federation\"}";
+//        assertThat(response.getBody(), equalTo(expected));
+//    }
+
     @Test
     public void integrationTest_file() throws Exception {
         MultiValueMap<String, Object> params= new LinkedMultiValueMap<String, Object>();

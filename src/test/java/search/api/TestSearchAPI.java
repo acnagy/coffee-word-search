@@ -52,6 +52,22 @@ public class TestSearchAPI {
                 .andExpect(jsonPath("$.input").value(str));
     }
 
+//    @Test
+//    public void test_string_keepCaps() throws Exception {
+//        String ter = "picard";
+//        String str = "Jean-Luc Picard was a celebrated Starfleet officer, archaeologist and diplomat";
+//        Integer expected = 1;
+//        mvc.perform(MockMvcRequestBuilders.post("/api/string/keepCaps")
+//                .param("term", ter)
+//                .param("string", str)
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType("application/json;charset=UTF-8"))
+//                .andExpect(jsonPath("$.term").value(ter))
+//                .andExpect(jsonPath("$.count").value(0))
+//                .andExpect(jsonPath("$.input").value(str));
+//    }
+
     @Test
     public void test_file() throws Exception {
         String ter = "lucis";
