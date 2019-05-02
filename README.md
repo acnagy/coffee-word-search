@@ -4,13 +4,14 @@
 a RESTful api to find a word in a file or a string. Fancy-sauce hello world, amiright? 
 
 a.k.a a demo app on [Spring Boot](https://spring.io) and [kubernetes (MiniKube)](https://kubernetes.io). 
-Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, and Kubernetes. Docker images are built in CI, pulled/tagged for deployment, and deployed on kubernetes.
+Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, Kubernetes and bring-your-own-cloud. 
+Docker images are built in CI, pulled/tagged for deployment.
 
 Check out the [slides here](http://slides.cs422.geckoandginko.live).
 
 ## Getting Started 
  
-Install all the docker/kubernetes dependencies
+Install all the dependencies
  - Install [Java8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) + [Gradle](https://gradle.org/install/)
  - Install [Docker](https://docs.docker.com/install/) + [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)+ [kops](https://kubernetes.io/docs/setup/custom-cloud/kops/)) + [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and a hypervisor like ([VirtualBox](https://www.virtualbox.org/wiki/Downloads)) for local development
 
@@ -99,7 +100,7 @@ $ curl -s URL/api/
 
 ```
 
-POST: `URL/api/string`
+POST: `URL/api/string/`
 params:
   - term: string
   - string: string (to search)
@@ -118,7 +119,7 @@ URL/api/string | jq
 
 ```
 
-POST: `URL/api/file`
+POST: `URL/api/file/`
 params: 
  - term: string
  - file: file path

@@ -16,73 +16,87 @@
         <ul>
     </nav>
     <h1>Spring Boot on Kubernetes</h1>
-    <p>a RESTful api to find a word in a file or a string.</p>
+    <p>a RESTful api to find a word in a file or a string. Fancy-sauce hello world, amiright?</p>
 
-    <p>a.k.a a demo app on <a href="https://spring.io">Spring Boot</a> and <a href="https://kubernetes.io">kubernetes (MiniKube)</a>. Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, Minikube and bring-your-own-cloud</p>
+    <p>a.k.a a demo app on <a href="https://spring.io">Spring Boot</a> and <a href="https://kubernetes.io">kubernetes</a>.
+        Uses Spring Boot, Java 8, CircleCI, Gradle 5.0, Docker, Kubernetes and bring-your-own-cloud.
+        Docker images are built in CI, pulled/tagged for deployment.
+    </p>
 
-    <p>Docker images are built on CircleCI, pushed to DockerHub, and deployed</p>
-
-    <h2 id="gettingstarted">Getting Started</h2>
-
+    <h2><a id="Getting_Started_0"></a>Getting Started</h2>
     <p>Install all the docker/kubernetes dependencies</p>
-
     <ul>
-        <li>Install <a href="https://docs.docker.com/install/">Docker</a></li>
-
-        <li>Install a Hypervisor (<a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a>)</li>
-
-        <li>Install <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a> and <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">minikube</a></li>
+        <li>Install <a href="https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html">Java8</a> + <a href="https://gradle.org/install/">Gradle</a></li>
+        <li>Install <a href="https://docs.docker.com/install/">Docker</a> + <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a>+ <a href="https://kubernetes.io/docs/setup/custom-cloud/kops/">kops</a>) + <a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">minikube</a> and a hypervisor like (<a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a>) for local development</li>
     </ul>
 
     <h2 id="writingtheapi">Writing the API</h2>
-
     <p>This application is super small. The class structure is as follows:</p>
-
-    <pre><code>├── main
-        │   ├── java
-        │   │   ├── search
-        │   │   │   ├── ...
-        │   │   └── txt
-        │   │       └── ...
-        │   └── resources
-        └── test
+    <pre><code>
+        src/main
         ├── java
+        │   ├── exceptions
+        │   │   └── ...
         │   ├── search
-        │   │   ├── ...
+        │   │   ├── Main.java
+        │   │   ├── api
+        │   │   │   └── ...
+        │   │   └── site
+        │   │       └── ...
         │   └── txt
         │       └── ...
         └── resources
+            ├── static
+            │   └── *.css
+            └── templates
+                └── *.html
     </code></pre>
 
-    <p>The <code>search</code> package contains the <code>Search</code> api controller class(es) and entrypoint. The <code>txt</code> package is a package for business logic, e.g. building results returned by the controller. Test for both are mirrored in the <code>test</code> package tree. </p>
+    <p>The <code>search</code> package contains the <code>Search</code> api controller class(es) and entrypoint.
+        The <code>txt</code> package is a package for business logic, e.g. building results returned by the controller.
+        Test for both are mirrored in the <code>test</code> package tree. </p>
 
-    <p>For more documentation on the layout of the codebase, have a look at it on GitHub, <a href="https://github.com/acnagy/coffee-word-searc">acnagy/coffee-word-search</a>. In particular, check out the <a href="https://github.com/acnagy/coffee-word-search/blob/master/CLASSES.md">CLASSES.md</a> and <a href="https://github.com/acnagy/coffee-word-search/blob/master/CONFIG.md">CONFIG.md</a> files.
+    <p>For more documentation on the layout of the codebase, have a look at it on GitHub,
+        <a href="https://github.com/acnagy/coffee-word-searc">acnagy/coffee-word-search</a>.
+        In particular, check out the
+        <a href="https://github.com/acnagy/coffee-word-search/blob/master/CLASSES.md">CLASSES.md</a>
+        and <a href="https://github.com/acnagy/coffee-word-search/blob/master/CONFIG.md">CONFIG.md</a> files.
 
     <h3 id="makeachange">Make a Change</h3>
 
-    <p>Application changes should be written in Java 8. The intention behind the business logic packages is to allow for more rapid change without impacting the api controller. The <code>txt</code> directory is a good place to make changes. </p>
+    <p>Application changes should be written in Java 8. The intention behind the business logic packages is to allow
+        for more rapid change without impacting the api controller. The <code>txt</code> directory is a good place to make
+        changes. </p>
 
-    <p>Before or during the change, add unit tests in the business logic package unit tests directory. New endpoints should get controller and integration tests as well. </p>
+    <p>Before or during the change, add unit tests in the business logic package unit tests directory. New endpoints should
+        get controller and integration tests as well. </p>
 
     <h3 class="localtesting">Local Testing</h3>  
-    <p>(1) Test the containerized application locally by building the jar, building a dev docker container, and running locally. The site will be available at <a href="http://localhost:8080">localhost:8080</a></p>
+    <p>(1) Test the containerized application locally by building the jar, building a dev docker container, and running
+        locally. The site will be available at <a href="http://localhost:8080">localhost:8080</a></p>
     <pre class="no-indent"><code>
         $ gradle clean build
-    $ docker build -t acnagy/coffee-word-search:local .
-    $ docker run -p 8080:8080 acnagy/coffee-word-search:local
+        $ docker build -t acnagy/coffee-word-search:local .
+        $ docker run -p 8080:8080 acnagy/coffee-word-search:local
     </code></pre>
 
-    <p>(2) Deploy the docker container a local kubernetes cluster with <a href="https://kubernetes.io/docs/setup/minikube/">Minikube</a> for local development and use <code>$ minikube start</code> to create a cluster. For production, create a separate cluster somewhere (e.g. with <a href="https://kubernetes.io/docs/setup/custom-cloud/kops/">kops</a> or a hosted kubernetes service).</p>
+    <p>(2) Deploy the docker container a local kubernetes cluster with
+        <a href="https://kubernetes.io/docs/setup/minikube/">Minikube</a> for local development and use
+        <code>$ minikube start</code> to create a cluster. For production, create a separate cluster somewhere (e.g.
+        with <a href="https://kubernetes.io/docs/setup/custom-cloud/kops/">kops</a> or a hosted kubernetes service).</p>
 
     <pre class="no-indent"><code>
         $ kubectl create -f deployment.yaml
         $ kubectl create -f service.yaml  
     </code></pre>
-    <p>The address of the cluster will either be the name of the load balancer created (in the cloud), or it will be the external IP that <code>minikube service coffee-word-search</code> knows about.</p>
+    <p>The address of the cluster will either be the name of the load balancer created (in the cloud), or it will be the
+        external IP that <code>minikube service coffee-word-search</code> knows about.</p>
 
     <h3 id="buildanddeploy">Build and Deploy</h3>
     <p>After making a change, run tests and build locally: </p>
-    <pre><code>$ gradle clean build</code></pre>
+    <pre><code>
+        $ gradle clean build
+    </code></pre>
     <p>to make sure everything works as it should. Then, commit to a branch and push. </p>
     <p>CircleCI will automatically pick up the build, and following the <code>.circle/config.yaml</code> it will: </p>
 
@@ -92,5 +106,23 @@
         <li>build a Docker image with that jar, tagging it with the version and build number</li>
         <li>push the Docker image to <a href="https://cloud.docker.com/u/acnagy/repository/docker/acnagy/coffee-word-search">Docker Hub (acnagy/coffee-word-search)</a> </li>
     </ul>
+
+    <p>To deploy, grab the image and re-tag with the minor version referenced in <code>deployment.yaml</code></p>
+    <pre class="no-indent"><code>
+        $ docker pull acnagy/coffee-word-search:BUILD_TAG
+        $ docker tag IMAGE_NAME acnagy/coffee-word-search:TAG
+        $ docker push acnagy/coffee-word-search:TAG
+    </code></pre>
+
+    <p>then, deploy to the kubernetes cluster with:</p>
+    <pre class="no-indent"><code>
+        $ kubectl apply -f deployment.yaml
+    </code></pre>
+    <p>show the status of the roll-out and get more information via:</p>
+    <pre class="no-indent"><code>
+        $ kubectl get deployment coffee-word-search
+            # or
+        $ kubectl describe deployment coffee-word-search
+    </code></pre>
 </body>
 </html>
