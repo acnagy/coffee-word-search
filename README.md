@@ -14,31 +14,9 @@ Install all the docker/kubernetes dependencies
  - Install [Java8](https://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html) + [Gradle](https://gradle.org/install/)
  - Install [Docker](https://docs.docker.com/install/) + [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)+ [kops](https://kubernetes.io/docs/setup/custom-cloud/kops/)) + [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) and a hypervisor like ([VirtualBox](https://www.virtualbox.org/wiki/Downloads)) for local development
 
+## Documentation
 
-## Writing the API
-This application is super small. The class structure is as follows:
-
-```
-src/main
-├── java
-│   ├── exceptions
-│   │   └── ...
-│   ├── search
-│   │   ├── Main.java
-│   │   ├── api
-│   │   │   └── ...
-│   │   └── site
-│   │       └── ...
-│   └── txt
-│       └── ...
-└── resources
-    ├── static
-    │   └── *.css
-    └── templates
-        └── *.html
-```
-
-The `search` package contains the main method and two packages: `api` and `site`, for the REST API and static site, respectively. The `txt` package is a package for business logic, e.g. building results returned by the controller. Test for both are mirrored in the `test` package tree (not show). 
+Read up on the design of this project in the [CLASSES.md](/CLASSES.md) and [CONFIG.md](/CONFIG.md) files. User docs for how to call the endpoints and what to expect are found below in the [API Calls](#API-Calls) section and as the `docs.html` page. 
 
 ### Make a Change
 Application changes should be written in Java 8, and separated by concern - `site`, `api`, or backend logic (`txt` and any potential siblings).
@@ -50,27 +28,15 @@ Before or during the change, add unit tests in the business logic package unit t
  - `curl`ing each of the endpoints (`/api`, `/api/string`, `/api/file`), with appropriate data or parameters that will error (e.g. nonexistent files, missing param)
  - visit each page in a browser (`/`, `/docs`, `/resources`)
 
+(1) Test the containerized application locally by building the jar, building a dev docker container, and running locally. The site will be available at [localhost:8080](http://localhost:8080)
+
 ```
 $ gradle clean build
-$ java -jar coffee-word-search-0.3.0.jar
+$ docker build -t acnagy/coffee-word-search:local .
+$ docker run -p 8080:8080 acnagy/coffee-word-search:local
 ```
 
-(2) Make sure the docker build works:
-
-```
-$ docker build -t owner/repo:tag .
-```
-
-if you run the docker container with:
-
-```
-$ docker run -p 8080:8080 owner/repo:tag
-```
-then the api will again be available on [localhost:8080](http://localhost:8080/).
-
-(3) Deploy the docker container a local kubernetes cluster with Minikube
-for local developmenent, use [Minikube](https://kubernetes.io/docs/setup/minikube/) and `$ minikube start`. 
-For production, create a separate cluster somewhere (e.g. with [kops](https://kubernetes.io/docs/setup/custom-cloud/kops/))
+(2) Deploy the docker container a local kubernetes cluster with [Minikube](https://kubernetes.io/docs/setup/minikube/) for local development and use `$ minikube start` to create a cluster. For production, create a separate cluster somewhere (e.g. with [kops](https://kubernetes.io/docs/setup/custom-cloud/kops/)or a hosted kubernetes service).
 
 ```
 $ kubectl create -f deployment.yaml
@@ -78,7 +44,6 @@ $ kubectl create -f service.yaml
 ```
 
 The address of the cluster will either be the name of the load balancer created (in the cloud), or it will be the external IP that `minikube service coffee-word-search` knows about. 
-
 
 ### Build and Deploy
 After making a change, run tests and build locally:

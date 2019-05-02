@@ -56,44 +56,29 @@
 
     <p>The <code>search</code> package contains the <code>Search</code> api controller class(es) and entrypoint. The <code>txt</code> package is a package for business logic, e.g. building results returned by the controller. Test for both are mirrored in the <code>test</code> package tree. </p>
 
+    <p>For more documentation on the layout of the codebase, have a look at it on GitHub, <a href="https://github.com/acnagy/coffee-word-searc">acnagy/coffee-word-search</a>. In particular, check out the <a href="https://github.com/acnagy/coffee-word-search/blob/master/CLASSES.md">CLASSES.md</a> and <a href="https://github.com/acnagy/coffee-word-search/blob/master/CONFIG.md">CONFIG.md</a> files.
+
     <h3 id="makeachange">Make a Change</h3>
 
     <p>Application changes should be written in Java 8. The intention behind the business logic packages is to allow for more rapid change without impacting the api controller. The <code>txt</code> directory is a good place to make changes. </p>
 
     <p>Before or during the change, add unit tests in the business logic package unit tests directory. New endpoints should get controller and integration tests as well. </p>
 
-    <h3 id="localtesting">Local Testing</h3>
-
-    <p>(1) Test manually by running as a jar. the api will be available on <a href="http://localhost:8080/">localhost:8080</a>. Test plans consist of <code>curl</code>ing each of the endpoints, with appropriate data or parameters that will error (e.g. nonexistent files, missing param)</p>
-
-    <pre class=".no-indent"><code>
+    <h3 class="localtesting">Local Testing</h3>  
+    <p>(1) Test the containerized application locally by building the jar, building a dev docker container, and running locally. The site will be available at <a href="http://localhost:8080">localhost:8080</a></p>
+    <pre class="no-indent"><code>
         $ gradle clean build
-        $ java -jar coffee-word-search-1.0.0.jar
+    $ docker build -t acnagy/coffee-word-search:local .
+    $ docker run -p 8080:8080 acnagy/coffee-word-search:local
     </code></pre>
 
-    <p>(2) Make sure the docker build works:</p>
+    <p>(2) Deploy the docker container a local kubernetes cluster with <a href="https://kubernetes.io/docs/setup/minikube/">Minikube</a> for local development and use <code>$ minikube start</code> to create a cluster. For production, create a separate cluster somewhere (e.g. with <a href="https://kubernetes.io/docs/setup/custom-cloud/kops/">kops</a> or a hosted kubernetes service).</p>
 
-    <pre class=".no-indent"><code>
-        $ docker build -t owner/repo:tag .
+    <pre class="no-indent"><code>
+        $ kubectl create -f deployment.yaml
+        $ kubectl create -f service.yaml  
     </code></pre>
-
-    <p>if you run the docker container with:</p>
-
-    <<pre class=".no-indent"><code>
-        $ docker run -p 8080:8080 owner/repo:tag
-    </code></pre>
-
-    <p>then the api will again be available on <a href="http://localhost:8080/">localhost:8080</a>.</p>
-
-    <p>(3) Deploy the docker container a local kubernetes cluster with Minikube</p>
-
-    <<pre class=".no-indent"><code>
-        $ minikube start
-        $ kubectl create -f deployment.yaml # edit this file to match docker naming/tagging
-        $ kubectl create -f service.yaml    # edit this too
-    </code></pre>
-
-    <p>Then, get the ip of the cluster with <code>minikube ip</code>. the api will be availabe on <code>MINIKUBE_IP:30495</code></p>
+    <p>The address of the cluster will either be the name of the load balancer created (in the cloud), or it will be the external IP that <code>minikube service coffee-word-search</code> knows about.</p>
 
     <h3 id="buildanddeploy">Build and Deploy</h3>
     <p>After making a change, run tests and build locally: </p>
