@@ -39,16 +39,20 @@ nav > ul > li {
 }
 
 .no-indent {
-    white-space: pre-line;
+    white-space: 'pre-line';
+    padding: 20px;
 }
+
 p, code, li {
     font-family: 'Nunito', sans-serif;
     color: #EEE;
     font-size: 16px;
+    word-wrap: break-word;
 }
 
 pre {
     background: #333;
+    overflow: auto;
 }
 
 code {
